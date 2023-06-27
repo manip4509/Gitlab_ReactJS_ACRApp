@@ -9,8 +9,8 @@ build:
   stage: build
   script:
     - docker login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD" "$REGISTRY_SERVERNAME"
-    - docker build -t $REGISTRY_SERVERNAME/javasampleapp:$CI_COMMIT_SHA .
-    - docker push $REGISTRY_SERVERNAME/javasampleapp:$CI_COMMIT_SHA
+    - docker build -t $REGISTRY_SERVERNAME/reactsampleapp:$CI_COMMIT_SHA .
+    - docker push $REGISTRY_SERVERNAME/reactsampleapp:$CI_COMMIT_SHA
 
 deploy:
   image: mcr.microsoft.com/azure-cli
@@ -19,7 +19,7 @@ deploy:
     - az login --service-principal --username "$AZURE_CLIENT_ID" --password "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
     - az account set --subscription "$AZURE_SUBSCRIPTION_ID"
     - az extension add -n containerapp
-    - az containerapp create --name testreactapp12 --resource-group POC-RG --environment test-env
+    - az containerapp create --name testreactapp123456 --resource-group POC-RG --environment test-env
       --registry-password $REGISTRY_PASSWORD --registry-server $REGISTRY_SERVERNAME --registry-username $REGISTRY_USERNAME
       --target-port 3000 --ingress external
-      --image "$REGISTRY_SERVERNAME/javasampleapp:$CI_COMMIT_SHA"
+      --image "$REGISTRY_SERVERNAME/reactsampleapp:$CI_COMMIT_SHA"
